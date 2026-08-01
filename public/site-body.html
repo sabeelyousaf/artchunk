@@ -1,12 +1,29 @@
 <div class="site">
 <header class="header" id="header">
   <a class="brand" href="#hero"><img src="/images/logo.png" alt="Artchunk"></a>
-  <nav class="nav" id="nav">
+  <nav class="nav" id="nav" aria-label="Primary">
     <a href="#talent">Talent</a><a href="#studio">Studio</a><a href="#process">How it works</a><a href="#clarity">Consultation</a><a href="#about">About</a><a href="#work">See our work ↗</a>
     <a class="btn lime nav-keep" href="#talent">Hire talent</a>
   </nav>
-  <button class="menu-btn" id="menuBtn" aria-label="Open navigation"><span></span></button>
+  <button class="menu-btn" id="menuBtn" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="mobileMenu">
+    <svg class="menu-icon menu-icon-open" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    <svg class="menu-icon menu-icon-close" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </button>
 </header>
+<!-- Mobile-only full-screen menu (outside header so it cannot be clipped) -->
+<nav class="mobile-menu" id="mobileMenu" hidden aria-label="Mobile primary">
+  <a href="#talent">Talent</a>
+  <a href="#studio">Studio</a>
+  <a href="#process">How it works</a>
+  <a href="#clarity">Consultation</a>
+  <a href="#about">About</a>
+  <a href="#work">See our work ↗</a>
+  <a class="btn lime" href="#talent">Hire talent</a>
+</nav>
 <nav class="progress-rail" aria-label="Page sections">
  <a href="#hero" aria-label="Hero"></a><a href="#problem" aria-label="Problem"></a><a href="#routes" aria-label="Routes"></a><a href="#talent" aria-label="Talent"></a><a href="#studio" aria-label="Studio"></a><a href="#process" aria-label="Process"></a><a href="#clarity" aria-label="Clarity"></a><a href="#about" aria-label="About"></a><a href="#faq" aria-label="FAQ"></a>
 </nav>
