@@ -71,14 +71,53 @@ document.addEventListener('keydown',e=>{
     else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}
   }
 });
-enquiryForm.addEventListener('submit',e=>{
+enquiryForm.addEventListener('submit',async e=>{
   e.preventDefault();
   if(!enquiryForm.checkValidity()){
     enquiryForm.reportValidity();
     return;
   }
-  formStatus.classList.add('show');
-  document.getElementById('modalSubmit').textContent='Form checked ✓';
+
+  const submitBtn=document.getElementById('modalSubmit');
+  const previousLabel=submitBtn.textContent;
+  submitBtn.disabled=true;
+  submitBtn.textContent='Sending…';
+  formStatus.classList.remove('show','error');
+
+  const payload={
+    fullName:document.getElementById('fullName').value.trim(),
+    workEmail:document.getElementById('workEmail').value.trim(),
+    company:document.getElementById('company').value.trim(),
+    phone:document.getElementById('phone').value.trim(),
+    route:routeSelect.value,
+    needType:document.getElementById('needType').value,
+    startTime:document.getElementById('startTime').value,
+    budget:document.getElementById('budget').value,
+    challenge:document.getElementById('challenge').value.trim(),
+    consent:document.getElementById('consent').checked,
+    website:document.getElementById('website')?.value||''
+  };
+
+  try{
+    const res=await fetch('/api/enquiry',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(payload)
+    });
+    const data=await res.json().catch(()=>({}));
+    if(!res.ok){
+      throw new Error(data.error||'Could not send your enquiry.');
+    }
+    formStatus.textContent='Thanks — we received your enquiry and will reply shortly.';
+    formStatus.classList.add('show');
+    submitBtn.textContent='Enquiry sent ✓';
+    enquiryForm.reset();
+  }catch(err){
+    formStatus.textContent=err.message||'Could not send your enquiry. Please try again.';
+    formStatus.classList.add('show','error');
+    submitBtn.disabled=false;
+    submitBtn.textContent=previousLabel||'Send enquiry ↗';
+  }
 });
 
 const placeholderToast=document.getElementById('placeholderToast');
@@ -155,11 +194,14 @@ menu.addEventListener('click',(e)=>{
 mobileMenu?.addEventListener('click',(e)=>{
   const a=e.target.closest('a');
   if(!a)return;
-  e.preventDefault();
-  const href=a.getAttribute('href');
+  const href=a.getAttribute('href')||'';
   setNavOpen(false);
-  // Navigate after close animation so the page does not jump under an open menu
-  window.setTimeout(()=>goToHash(href),280);
+  // Same-page hash links: smooth-scroll after the menu closes.
+  // Real routes (/talent, /about, …) must navigate normally for SEO sitelinks.
+  if(href.charAt(0)==='#'){
+    e.preventDefault();
+    window.setTimeout(()=>goToHash(href),280);
+  }
 });
 desktopNav?.addEventListener('click',(e)=>{
   if(e.target.closest('a'))setNavOpen(false);

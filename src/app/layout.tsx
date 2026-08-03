@@ -1,5 +1,13 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
+import { Analytics } from "@/components/analytics";
+import { JsonLd } from "@/components/json-ld";
+import { metadata as siteMetadata } from "@/lib/metadata";
+import {
+  organizationJsonLd,
+  siteNavigationJsonLd,
+  websiteJsonLd,
+} from "@/lib/site";
 import "./globals.css";
 
 const aeonik = localFont({
@@ -18,11 +26,7 @@ const aeonik = localFont({
   fallback: ["Helvetica Neue", "Arial", "sans-serif"],
 });
 
-export const metadata: Metadata = {
-  title: "Artchunk — Website Visual Direction V4.3",
-  description:
-    "Artchunk connects managed specialist talent with creative and digital project delivery through one accountable relationship.",
-};
+export const metadata: Metadata = siteMetadata;
 
 export const viewport: Viewport = {
   themeColor: "#111615",
@@ -36,8 +40,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={aeonik.variable}>
-      <body className={aeonik.className}>{children}</body>
+    <html lang="en" className={aeonik.variable} suppressHydrationWarning>
+      <body className={aeonik.className} suppressHydrationWarning>
+        <JsonLd
+          data={[
+            organizationJsonLd(),
+            websiteJsonLd(),
+            siteNavigationJsonLd(),
+          ]}
+        />
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
