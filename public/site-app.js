@@ -58,7 +58,10 @@ function closeModal(){
 }
 document.addEventListener('click',e=>{
   const t=e.target.closest('.open-modal');
-  if(t)openModal(t.dataset.route||'Enquiry');
+  if(!t)return;
+  e.preventDefault();
+  if(document.body.classList.contains('nav-open'))setNavOpen(false);
+  openModal(t.dataset.route||'Enquiry');
 });
 close.addEventListener('click',closeModal);
 modal.addEventListener('click',e=>{if(e.target===modal)closeModal()});
@@ -133,6 +136,36 @@ document.querySelectorAll('#work .work-card').forEach(card=>{
 });
 
 const reveals=document.querySelectorAll('.reveal');const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}}),{threshold:.12});reveals.forEach(el=>io.observe(el));
+
+(function(){
+  const values=[...document.querySelectorAll('.stat-value[data-count]')];
+  if(!values.length)return;
+  const animate=(el)=>{
+    const target=Number(el.dataset.count||0);
+    const suffix=el.dataset.suffix||'';
+    const pad=target>=10?String(target).length:2;
+    const start=performance.now();
+    const duration=900;
+    const tick=(now)=>{
+      const t=Math.min(1,(now-start)/duration);
+      const eased=1-Math.pow(1-t,3);
+      const current=Math.round(target*eased);
+      el.textContent=String(current).padStart(pad,'0')+suffix;
+      if(t<1)requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  };
+  const sio=new IntersectionObserver((entries)=>{
+    entries.forEach((entry)=>{
+      if(!entry.isIntersecting)return;
+      entry.target.querySelectorAll('.stat-value[data-count]').forEach(animate);
+      sio.unobserve(entry.target);
+    });
+  },{threshold:.35});
+  const grid=document.getElementById('statsGrid');
+  if(grid)sio.observe(grid);
+})();
+
 const header=document.getElementById('header');
 const menu=document.getElementById('menuBtn');
 const desktopNav=document.getElementById('nav');
@@ -227,5 +260,15 @@ const sections=[...document.querySelectorAll('main section[id]')],rail=[...docum
   updateRail();
   window.addEventListener('scroll',updateRail,{passive:true});
 })();
+
+try{
+  const openRoute=new URLSearchParams(window.location.search).get('open');
+  if(openRoute){
+    openModal(openRoute);
+    const url=new URL(window.location.href);
+    url.searchParams.delete('open');
+    window.history.replaceState({},'',url.pathname+url.hash);
+  }
+}catch(_){}
 
 })();

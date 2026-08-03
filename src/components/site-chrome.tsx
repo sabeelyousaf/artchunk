@@ -38,7 +38,7 @@ export function SiteChrome({ children, tone = "dark" }: SiteChromeProps) {
               {item.label}
             </Link>
           ))}
-          <Link className="btn lime nav-keep" href="/talent">
+          <Link className="btn lime nav-keep" href="/?open=Talent%20enquiry">
             Hire talent
           </Link>
         </nav>
@@ -100,7 +100,7 @@ export function SiteChrome({ children, tone = "dark" }: SiteChromeProps) {
         ))}
         <Link
           className="btn lime"
-          href="/talent"
+          href="/?open=Talent%20enquiry"
           onClick={() => setMenuOpen(false)}
         >
           Hire talent
