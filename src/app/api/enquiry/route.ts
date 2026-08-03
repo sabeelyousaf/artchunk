@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
 import { LEGAL_ENTITY, SITE_NAME, SITE_URL } from "@/lib/site";
 
 export const runtime = "nodejs";
@@ -33,6 +33,22 @@ function escapeHtml(value: string) {
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;");
+}
+
+function createTransport() {
+  const host = process.env.SMTP_HOST || "smtp.gmail.com";
+  const port = Number(process.env.SMTP_PORT || "465");
+  const user = process.env.SMTP_USER;
+  const pass = process.env.SMTP_PASS?.replaceAll(" ", "");
+
+  if (!user || !pass) return null;
+
+  return nodemailer.createTransport({
+    host,
+    port,
+    secure: port === 465,
+    auth: { user, pass },
+  });
 }
 
 export async function POST(request: Request) {
@@ -82,22 +98,22 @@ export async function POST(request: Request) {
     );
   }
 
-  const apiKey = process.env.RESEND_API_KEY;
-  const toEmail = process.env.ENQUIRY_TO_EMAIL;
+  const transporter = createTransport();
+  const toEmail = process.env.ENQUIRY_TO_EMAIL || process.env.SMTP_USER;
   const fromEmail =
-    process.env.ENQUIRY_FROM_EMAIL || "Artchunk <onboarding@resend.dev>";
+    process.env.ENQUIRY_FROM_EMAIL ||
+    `Artchunk <${process.env.SMTP_USER}>`;
 
-  if (!apiKey || !toEmail) {
+  if (!transporter || !toEmail) {
     return NextResponse.json(
       {
         error:
-          "Enquiry delivery is not configured yet. Set RESEND_API_KEY and ENQUIRY_TO_EMAIL.",
+          "Enquiry delivery is not configured yet. Set SMTP_USER, SMTP_PASS and ENQUIRY_TO_EMAIL.",
       },
       { status: 503 },
     );
   }
 
-  const resend = new Resend(apiKey);
   const submittedAt = new Date().toISOString();
 
   const adminHtml = `
@@ -127,24 +143,17 @@ export async function POST(request: Request) {
   `;
 
   try {
-    const adminResult = await resend.emails.send({
+    await transporter.sendMail({
       from: fromEmail,
-      to: [toEmail],
+      to: toEmail,
       replyTo: workEmail,
       subject: `New enquiry: ${route} — ${company}`,
       html: adminHtml,
     });
 
-    if (adminResult.error) {
-      return NextResponse.json(
-        { error: "Could not send the enquiry. Please try again shortly." },
-        { status: 502 },
-      );
-    }
-
-    await resend.emails.send({
+    await transporter.sendMail({
       from: fromEmail,
-      to: [workEmail],
+      to: workEmail,
       subject: `We received your ${SITE_NAME} enquiry`,
       html: userHtml,
     });
