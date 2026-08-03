@@ -167,7 +167,7 @@ export function buildAdminEnquiryEmail(data: EnquiryEmailData) {
       A new enquiry landed through the Artchunk site. Reply directly to this email to reach the sender.
     </p>
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:${colors.graphite};border:1px solid ${colors.line};border-radius:16px;padding:4px 18px;">
-      ${detailRow("Submitted", escapeHtml(formatSubmittedAt(data.submittedAt))}
+      ${detailRow("Submitted", escapeHtml(formatSubmittedAt(data.submittedAt)))}
       ${detailRow("Name", escapeHtml(data.fullName))}
       ${detailRow("Email", emailHtml)}
       ${detailRow("Company", escapeHtml(data.company))}
