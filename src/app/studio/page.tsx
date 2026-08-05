@@ -97,9 +97,6 @@ export default function StudioPage() {
               <Link className="btn lime" href="/#final">
                 Start a project ↗
               </Link>
-              <Link className="btn ghost" href="/talent">
-                Explore Talent ↗
-              </Link>
             </div>
           </div>
         </div>

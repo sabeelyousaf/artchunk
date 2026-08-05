@@ -8,6 +8,8 @@ import {
 
 const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
 
+const DEFAULT_SOCIAL_IMAGE = `${SITE_URL}/images/embed-1.webp`;
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
@@ -26,11 +28,20 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     title: HOME_TITLE,
     description: HOME_DESCRIPTION,
+    images: [
+      {
+        url: DEFAULT_SOCIAL_IMAGE,
+        alt: HOME_TITLE,
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: HOME_TITLE,
     description: HOME_DESCRIPTION,
+    images: [DEFAULT_SOCIAL_IMAGE],
   },
   icons: {
     icon: [{ url: "/favicon.png", type: "image/png" }],

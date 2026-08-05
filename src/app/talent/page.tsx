@@ -72,10 +72,7 @@ export default function TalentPage() {
         </h1>
         <p className="lead">
           Artchunk Talent is for businesses that need the right people without
-          creating another recruitment and management burden. Add a specialist,
-          reserve ongoing capability or have Artchunk build and manage a small
-          team — while one accountable lead owns workflow, quality and
-          continuity.
+          creating another recruitment and management burden.
         </p>
       </section>
 
