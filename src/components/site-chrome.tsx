@@ -114,7 +114,7 @@ export function SiteChrome({ children, tone = "dark" }: SiteChromeProps) {
           <div className="footer-brand">
             <img src="/images/logo.png" alt={SITE_NAME} />
             <p>
-              Creative talent, digital services and technology — connected
+              Creative talent, digital services and technology. Connected
               through one accountable relationship, so good work keeps moving.
             </p>
           </div>

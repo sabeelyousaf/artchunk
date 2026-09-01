@@ -59,7 +59,7 @@ export default function StudioPage() {
         <p className="lead" style={{ color: "#45504c", maxWidth: 720 }}>
           Artchunk Studio is for focused projects, campaigns, retainers and
           complete managed solutions. We bring the right mix of strategy,
-          creativity and digital execution around one agreed outcome — then own
+          creativity and digital execution around one agreed outcome, then own
           the route from brief to handover.
         </p>
       </section>
@@ -94,7 +94,10 @@ export default function StudioPage() {
               arrangement without rebuilding the context from zero.
             </p>
             <div className="seo-actions">
-              <Link className="btn lime" href="/#final">
+              <Link className="btn lime" href="/talent">
+                Explore Talent ↗
+              </Link>
+              <Link className="btn ghost" href="/#final">
                 Start a project ↗
               </Link>
             </div>

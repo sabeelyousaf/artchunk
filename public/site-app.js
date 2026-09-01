@@ -123,18 +123,6 @@ enquiryForm.addEventListener('submit',async e=>{
   }
 });
 
-const placeholderToast=document.getElementById('placeholderToast');
-let toastTimer;
-document.querySelectorAll('#work .work-card').forEach(card=>{
-  card.classList.add('placeholder-link');
-  card.addEventListener('click',e=>{
-    e.preventDefault();
-    placeholderToast.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer=setTimeout(()=>placeholderToast.classList.remove('show'),2600);
-  });
-});
-
 const reveals=document.querySelectorAll('.reveal');const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}}),{threshold:.12});reveals.forEach(el=>io.observe(el));
 
 (function(){
