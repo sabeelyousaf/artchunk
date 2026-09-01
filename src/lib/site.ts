@@ -56,7 +56,6 @@ export const FOOTER_ROUTES = [
 export const FOOTER_COMPANY = [
   { href: "/about", label: "About" },
   { href: "/faq", label: "FAQs" },
-  { href: "/#work", label: "See our work ↗" },
   { href: "/#final", label: "Contact" },
 ] as const;
 

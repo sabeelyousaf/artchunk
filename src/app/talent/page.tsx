@@ -20,19 +20,19 @@ export const metadata: Metadata = {
 const MODES = [
   {
     title: "Flexible capacity",
-    text: "Reserved monthly hours for recurring production, campaigns and changing priorities — without hiring full-time too early.",
+    text: "Reserved monthly hours for recurring work and changing priorities.",
   },
   {
     title: "Dedicated specialist",
-    text: "A part-time or full-time professional primarily allocated to your business, with Artchunk owning continuity and quality.",
+    text: "A part-time or full-time professional primarily allocated to your business.",
   },
   {
     title: "Managed small team",
-    text: "Complementary specialists coordinated through one Artchunk Account Lead, so you get coverage without managing every role yourself.",
+    text: "Complementary specialists coordinated through one Artchunk Account Lead.",
   },
   {
     title: "Senior or fractional lead",
-    text: "Experienced creative, product or delivery leadership through a tailored arrangement when direction matters as much as output.",
+    text: "Experienced creative, product or delivery leadership through a tailored arrangement.",
   },
 ] as const;
 
