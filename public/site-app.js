@@ -7,12 +7,11 @@ document.querySelectorAll('.route-state').forEach(btn=>btn.addEventListener('cli
 
 const partners=[
   {name:'AVIONS.AI',src:'/images/extra-1.png',className:'image-only avions',imageOnly:true},
-  {name:'CHIPWORKS ARABIA',src:'/images/extra-2.png',className:'image-only chipworks',imageOnly:true},
-  {name:'DASCO',src:'/images/extra-3.png',className:'dasco',imageOnly:false},
+  {name:'CHIPWORKS ARABIA',src:'/images/chipworks-arabia-light.png',hoverSrc:'/images/chipworks-arabia.png',className:'image-only chipworks',imageOnly:true},
+  {name:'DASCO',src:'/images/dasco.png',className:'dasco',imageOnly:false},
   {name:'NEW MAVERICKS',src:'/images/extra-4.png',className:'image-only mavericks',imageOnly:true},
   {name:'WOLFZ TECH',src:'https://www.google.com/s2/favicons?domain=wolfztech.com&sz=256',className:'wolfz',imageOnly:false},
-  {name:'STABLESYSTEMS',src:'https://stablesystem.co/logos/stablesystem-logo-white.svg',className:'stable',imageOnly:false},
-  {name:'RAYBEAM STUDIO',src:'/images/extra-5.png',className:'raybeam',imageOnly:false}
+  {name:'STABLESYSTEMS',src:'https://stablesystem.co/logos/stablesystem-logo-white.svg',className:'stable',imageOnly:false}
 ];
 const ptrack=document.getElementById('partnerTrack');
 [...partners,...partners].forEach((item,index)=>{
@@ -20,6 +19,11 @@ const ptrack=document.getElementById('partnerTrack');
   el.className=`partner ${item.className||''} ${item.imageOnly?'image-only':''}`;
   el.innerHTML=`<span class="partner-logo-stage"><img class="partner-logo" src="${item.src}" alt="${item.name} logo"></span><b>${item.name}</b>`;
   el.setAttribute('aria-hidden',index>=partners.length?'true':'false');
+  if(item.hoverSrc){
+    const img=el.querySelector('.partner-logo');
+    el.addEventListener('mouseenter',()=>{img.src=item.hoverSrc});
+    el.addEventListener('mouseleave',()=>{img.src=item.src});
+  }
   ptrack.appendChild(el);
 });
 
@@ -121,6 +125,19 @@ enquiryForm.addEventListener('submit',async e=>{
     submitBtn.disabled=false;
     submitBtn.textContent=previousLabel||'Send enquiry ↗';
   }
+});
+
+const placeholderToast=document.getElementById('placeholderToast');
+let toastTimer;
+document.querySelectorAll('#work .work-card[href="#work"]').forEach(card=>{
+  card.classList.add('placeholder-link');
+  card.addEventListener('click',e=>{
+    e.preventDefault();
+    if(!placeholderToast)return;
+    placeholderToast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer=setTimeout(()=>placeholderToast.classList.remove('show'),2600);
+  });
 });
 
 const reveals=document.querySelectorAll('.reveal');const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}}),{threshold:.12});reveals.forEach(el=>io.observe(el));

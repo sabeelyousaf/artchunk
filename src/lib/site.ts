@@ -56,6 +56,7 @@ export const FOOTER_ROUTES = [
 export const FOOTER_COMPANY = [
   { href: "/about", label: "About" },
   { href: "/faq", label: "FAQs" },
+  { href: "/#work", label: "See our work ↗" },
   { href: "/#final", label: "Contact" },
 ] as const;
 
@@ -63,6 +64,29 @@ export const FOOTER_LEGAL = [
   { href: "/privacy", label: "Privacy" },
   { href: "/cookies", label: "Cookies" },
   { href: "/terms", label: "Terms" },
+] as const;
+
+export const SOCIAL_LINKS = [
+  {
+    id: "facebook",
+    label: "Facebook",
+    href: "https://www.facebook.com/artchunk",
+  },
+  {
+    id: "instagram",
+    label: "Instagram",
+    href: "https://www.instagram.com/artchunkindustries/",
+  },
+  {
+    id: "linkedin",
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/company/artchunk",
+  },
+  {
+    id: "behance",
+    label: "Behance",
+    href: "https://www.behance.net/artchunk",
+  },
 ] as const;
 
 export const LEGAL_PAGES = [
@@ -191,10 +215,7 @@ export function organizationJsonLd() {
     url: SITE_URL,
     logo: absoluteUrl("/images/logo.png"),
     description: HOME_DESCRIPTION,
-    sameAs: [
-      "https://pk.linkedin.com/company/artchunk",
-      "https://www.instagram.com/artchunkindustries/",
-    ],
+    sameAs: SOCIAL_LINKS.map((item) => item.href),
     areaServed: ["GB", "AE", "SA", "QA", "BH", "KW", "OM"],
   };
 }
