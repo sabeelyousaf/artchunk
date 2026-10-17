@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { FooterSocial } from "@/components/social-icons";
 import {
   FOOTER_COMPANY,
   FOOTER_LEGAL,
@@ -113,10 +114,8 @@ export function SiteChrome({ children, tone = "dark" }: SiteChromeProps) {
         <div className="footer-top">
           <div className="footer-brand">
             <img src="/images/logo.png" alt={SITE_NAME} />
-            <p>
-              Creative talent, digital services and technology. Connected
-              through one accountable relationship, so good work keeps moving.
-            </p>
+            <p>Creative talent, digital services and technology.</p>
+            <FooterSocial />
           </div>
           <div className="footer-cols">
             <div>
